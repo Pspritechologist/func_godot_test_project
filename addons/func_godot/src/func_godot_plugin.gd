@@ -2,10 +2,11 @@
 class_name FuncGodotPlugin
 extends EditorPlugin
 
-# var map_import_plugin : QuakeMapImportPlugin = null
+var map_import_plugin : QuakeMapImportPlugin = null
 var palette_import_plugin : QuakePaletteImportPlugin = null
 var wad_import_plugin: QuakeWadImportPlugin = null
-var map_import_plugin: MapSceneImportPlugin = null
+var map_scene_import_plugin: MapSceneImportPlugin = null
+var map_scene_post_import_plugin: MapScenePostImportPlugin = null
 
 var func_godot_map_control: Control = null
 var func_godot_map_progress_bar: Control = null
@@ -29,15 +30,17 @@ func _make_visible(visible: bool) -> void:
 
 func _enter_tree() -> void:
 	# Import plugins
-	# map_import_plugin = QuakeMapImportPlugin.new()
+	map_import_plugin = QuakeMapImportPlugin.new()
 	palette_import_plugin = QuakePaletteImportPlugin.new()
 	wad_import_plugin = QuakeWadImportPlugin.new()
-	map_import_plugin = MapSceneImportPlugin.new()
+	map_scene_import_plugin = MapSceneImportPlugin.new()
+	map_scene_post_import_plugin = MapScenePostImportPlugin.new()
 	
-	# add_import_plugin(map_import_plugin)
+	add_import_plugin(map_import_plugin)
 	add_import_plugin(palette_import_plugin)
 	add_import_plugin(wad_import_plugin)
-	add_scene_format_importer_plugin(map_import_plugin)
+	add_scene_format_importer_plugin(map_scene_import_plugin)
+	add_scene_post_import_plugin(map_scene_post_import_plugin)
 	
 	# FuncGodotMap button
 	func_godot_map_control = create_func_godot_map_control()
@@ -52,15 +55,17 @@ func _enter_tree() -> void:
 
 func _exit_tree() -> void:
 	remove_custom_type("FuncGodotMap")
-	# remove_import_plugin(map_import_plugin)
+	remove_import_plugin(map_import_plugin)
 	remove_import_plugin(palette_import_plugin)
 	if wad_import_plugin:
 		remove_import_plugin(wad_import_plugin)
-	remove_scene_format_importer_plugin(map_import_plugin)
+	remove_scene_format_importer_plugin(map_scene_import_plugin)
+	remove_scene_post_import_plugin(map_scene_post_import_plugin)
 		
 	map_import_plugin = null
 	palette_import_plugin = null
 	wad_import_plugin = null
+	map_scene_import_plugin = null
 
 	if func_godot_map_control:
 		remove_control_from_container(EditorPlugin.CONTAINER_SPATIAL_EDITOR_MENU, func_godot_map_control)
