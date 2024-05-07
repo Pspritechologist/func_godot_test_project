@@ -172,17 +172,17 @@ func add_child_editor(parent: Node, node: Node, below: Node = null) -> void:
 
 ## Set the owner of [code]node[/code] to the current scene.
 func set_owner_editor(node: Node) -> void:
-	var tree : SceneTree = get_tree()
+	# var tree : SceneTree = get_tree()
 	
-	if not tree:
-		return
+	# if not tree:
+	# 	return
 	
-	var edited_scene_root : Node = tree.get_edited_scene_root()
+	# var edited_scene_root : Node = tree.get_edited_scene_root()
 	
-	if not edited_scene_root:
-		return
+	# if not edited_scene_root:
+	# 	return
 	
-	node.set_owner(edited_scene_root)
+	node.set_owner(self)
 
 var build_step_index : int = 0
 var build_step_count : int = 0
@@ -204,9 +204,9 @@ func run_build_steps(post_attach : bool = false) -> void:
 		var build_step : Array = target_array.pop_front()
 		emit_signal("build_progress", build_step[0], float(build_step_index + 1) / float(build_step_count))
 		
-		var scene_tree : SceneTree = get_tree()
-		if scene_tree and not block_until_complete:
-			await get_tree().create_timer(YIELD_DURATION).timeout
+		# var scene_tree : SceneTree = get_tree()
+		# if scene_tree and not block_until_complete:
+		# 	await get_tree().create_timer(YIELD_DURATION).timeout
 		
 		var result : Variant = run_build_step(build_step[0], build_step[1])
 		var target : String = build_step[2]
@@ -215,8 +215,8 @@ func run_build_steps(post_attach : bool = false) -> void:
 			
 		build_step_index += 1
 		
-		if scene_tree and not block_until_complete:
-			await get_tree().create_timer(YIELD_DURATION).timeout
+		# if scene_tree and not block_until_complete:
+		# 	await get_tree().create_timer(YIELD_DURATION).timeout
 
 	if post_attach:
 		_build_complete()
@@ -822,9 +822,9 @@ func add_children() -> void:
 			add_children_complete()
 			return
 		
-		var scene_tree: SceneTree = get_tree()
-		if scene_tree and not block_until_complete:
-			await get_tree().create_timer(YIELD_DURATION).timeout
+		# var scene_tree: SceneTree = get_tree()
+		# if scene_tree and not block_until_complete:
+		# 	await get_tree().create_timer(YIELD_DURATION).timeout
 
 ## Set owners and start post-attach build steps
 func add_children_complete() -> void:
@@ -847,9 +847,9 @@ func set_owners() -> void:
 				set_owners_complete()
 				return
 				
-		var scene_tree: SceneTree = get_tree()
-		if scene_tree and not block_until_complete:
-			await get_tree().create_timer(YIELD_DURATION).timeout
+		# var scene_tree: SceneTree = get_tree()
+		# if scene_tree and not block_until_complete:
+		# 	await get_tree().create_timer(YIELD_DURATION).timeout
 
 ## Finish profiling for set_owners and start post-attach build steps
 func set_owners_complete() -> void:
