@@ -23,6 +23,7 @@ func _import_scene(path: String, flags: int, options: Dictionary) -> Object:
 	tree.free()
 	
 	var root_node = Node3D.new()
+	root_node.name = path.get_file().get_basename().to_pascal_case()
 	map_node.replace_by(root_node)
 	map_node.free()
 
